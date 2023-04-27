@@ -25,8 +25,14 @@ public class application implements Consumer<Event>
         window = App.makeWindow();
         // задаём обработчиком событий текущий объект
         window.setEventListener(this);
+        window.setTitle("Java 2D");
+        // задаём размер окна
+        window.setWindowSize(900, 900);
+// задаём его положение
+        window.setWindowPosition(100, 100);
         // делаем окно видимым
         window.setVisible(true);
+
     }
 
     // обработчик событий
