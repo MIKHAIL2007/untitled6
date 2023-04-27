@@ -54,7 +54,10 @@ public class application implements Consumer<Event>
 // задаём его положение
         window.setWindowPosition(100, 100);
         // задаём иконкy
-        label = new Label(window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, "Привет, мир!");
+        // создаём первый заголовок
+        label = new Label(window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING,
+                "Привет, мир!", true, true);
+
         switch (Platform.CURRENT) {
             case WINDOWS -> window.setIcon(new File("src/main/resources/windows.ico"));
             case MACOS -> window.setIcon(new File("src/main/resources/macos.icns"));
