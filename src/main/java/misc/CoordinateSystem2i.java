@@ -12,15 +12,15 @@ public class CoordinateSystem2i {
     /**
      * максимальная координата
      */
-    private final vector2i max;
+    private final Vector2i max;
     /**
      * минимальная координата
      */
-    private final vector2i min;
+    private final Vector2i min;
     /**
      * размер СК
      */
-    private final vector2i size;
+    private final Vector2i size;
 
     /**
      * Конструктор ограниченной двумерной целочисленной системы координат
@@ -31,9 +31,9 @@ public class CoordinateSystem2i {
      * @param sizeY размер по оси Y
      */
     public CoordinateSystem2i(int minX, int minY, int sizeX, int sizeY) {
-        min = new vector2i(minX, minY);
-        size = new vector2i(sizeX, sizeY);
-        max = vector2i.sum(size, min);
+        min = new Vector2i(minX, minY);
+        size = new Vector2i(sizeX, sizeY);
+        max = Vector2i.sum(size, min);
         max.dec();
     }
 
@@ -52,8 +52,8 @@ public class CoordinateSystem2i {
      *
      * @return случайные координаты внутри СК
      */
-    public vector2i getRandomCoords() {
-        return vector2i.rand(min, max);
+    public Vector2i getRandomCoords() {
+        return Vector2i.rand(min, max);
     }
 
     /**
@@ -62,8 +62,8 @@ public class CoordinateSystem2i {
      * @param pos положение
      * @return относительное положение
      */
-    public vector2i getRelativePos(vector2i pos) {
-        return vector2i.subtract(pos, min);
+    public Vector2i getRelativePos(Vector2i pos) {
+        return Vector2i.subtract(pos, min);
     }
 
     /**
@@ -91,7 +91,7 @@ public class CoordinateSystem2i {
      * @param coords координаты вектора
      * @return флаг, попадают ли координаты в границы СК
      */
-    public boolean checkCoords(vector2i coords) {
+    public boolean checkCoords(Vector2i coords) {
         return checkCoords(coords.x, coords.y);
     }
 
@@ -111,7 +111,7 @@ public class CoordinateSystem2i {
      *
      * @return максимальная координата
      */
-    public vector2i getMax() {
+    public Vector2i getMax() {
         return max;
     }
 
@@ -120,7 +120,7 @@ public class CoordinateSystem2i {
      *
      * @return минимальная координата
      */
-    public vector2i getMin() {
+    public Vector2i getMin() {
         return min;
     }
 
@@ -129,7 +129,7 @@ public class CoordinateSystem2i {
      *
      * @return размер СК
      */
-    public vector2i getSize() {
+    public Vector2i getSize() {
         return size;
     }
 

@@ -1,6 +1,6 @@
 package app;
 
-import misc.misc;
+import misc.Misc;
 
 /**
  * Класс цветов
@@ -9,7 +9,7 @@ public class colors {
     /**
      * цвет фона
      */
-    public static final int APP_BACKGROUND_COLOR = misc.getColor(255, 38, 70, 83);
+    public static final int APP_BACKGROUND_COLOR = Misc.getColor(255, 38, 70, 83);
 
     /**
      * Запрещённый конструктор

@@ -3,7 +3,7 @@ package misc;
 /**
  * Вспомогательная библиотека
  */
-public class misc {
+public class Misc {
 
     /**
      * Получить цвет по компонентам
@@ -22,7 +22,7 @@ public class misc {
     /**
      * Запрещаем вызов конструктора
      */
-    private misc() {
+    private Misc() {
         throw new AssertionError("Вызов этого конструктора запрещён");
     }
 

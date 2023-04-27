@@ -8,7 +8,7 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Класс двумерного вектора int
  */
-public class vector2i {
+public class Vector2i {
     /**
      * x - координата вектора
      */
@@ -24,7 +24,7 @@ public class vector2i {
      * @param x координата X вектора
      * @param y координата Y вектора
      */
-    public vector2i(int x, int y) {
+    public Vector2i(int x, int y) {
         this.x = x;
         this.y = y;
     }
@@ -34,7 +34,7 @@ public class vector2i {
      *
      * @param e событие
      */
-    public vector2i(Event e) {
+    public Vector2i(Event e) {
         // если событие кнопка мыши
         if (e instanceof EventMouseMove ee) {
             this.x = ee.getX();
@@ -49,8 +49,8 @@ public class vector2i {
      * @param b второй вектор
      * @return сумма двух векторов
      */
-    public static vector2i sum(vector2i a, vector2i b) {
-        return new vector2i(a.x + b.x, a.y + b.y);
+    public static Vector2i sum(Vector2i a, Vector2i b) {
+        return new Vector2i(a.x + b.x, a.y + b.y);
     }
 
     /**
@@ -58,7 +58,7 @@ public class vector2i {
      *
      * @param v вектор, который нужно добавить
      */
-    public void add(vector2i v) {
+    public void add(Vector2i v) {
         this.x = this.x + v.x;
         this.y = this.y + v.y;
     }
@@ -70,8 +70,8 @@ public class vector2i {
      * @param b второй вектор
      * @return разность двух векторов
      */
-    public static vector2i subtract(vector2i a, vector2i b) {
-        return new vector2i(a.x - b.x, a.y - b.y);
+    public static Vector2i subtract(Vector2i a, Vector2i b) {
+        return new Vector2i(a.x - b.x, a.y - b.y);
     }
 
     /**
@@ -81,8 +81,8 @@ public class vector2i {
      * @param max верхняя граница
      * @return случайное значение в заданном диапазоне [min,max)
      */
-    public static vector2i rand(vector2i min, vector2i max) {
-        return new vector2i(
+    public static Vector2i rand(Vector2i min, Vector2i max) {
+        return new Vector2i(
                 ThreadLocalRandom.current().nextInt(min.x, max.x),
                 ThreadLocalRandom.current().nextInt(min.y, max.y)
         );
@@ -139,7 +139,7 @@ public class vector2i {
         if (o == null || getClass() != o.getClass()) return false;
 
         // приводим переданный в параметрах объект к текущему классу
-        vector2i vector2i = (vector2i) o;
+        Vector2i vector2i = (Vector2i) o;
 
         // если не совпадают x координаты
         if (x != vector2i.x) return false;
