@@ -74,6 +74,14 @@ public class colors {
     /**
      * Запрещённый конструктор
      */
+    /**
+     * Цвет заливки панели
+     */
+    public static final int SCROLLER_BACKGROUND_COLOR = Misc.getColor(150, 83, 38, 70);
+    /**
+     * Цвет заливки панели
+     */
+    public static final int SCROLLER_COLOR = Misc.getColor(255, 83, 38, 70);
     private colors() {
         throw new AssertionError("Вызов этого конструктора запрещён");
     }

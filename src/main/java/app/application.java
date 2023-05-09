@@ -3,6 +3,7 @@ package app;
 import controls.InputFactory;
 import controls.Label;
 import dialogs.PanelInfo;
+import dialogs.PanelSelectFile;
 import io.github.humbleui.jwm.*;
 import io.github.humbleui.jwm.Event;
 import io.github.humbleui.jwm.skija.EventFrameSkija;
@@ -98,13 +99,18 @@ public class application implements Consumer<Event>
      * Текущий режим(по умолчанию рабочий)
      */
     public static Mode currentMode = Mode.WORK;
+    /**
+     * Панель выбора файла
+     */
+    private final PanelSelectFile panelSelectFile;
     public static Task task;
     // конструктор приложения
     public application() {
 
         // создаём окно
         window = App.makeWindow();
-
+        // Панель выбора файла
+        panelSelectFile = new PanelSelectFile(window, true, DIALOG_BACKGROUND_COLOR, PANEL_PADDING);
         // панель информации
         panelInfo = new PanelInfo(window, true, DIALOG_BACKGROUND_COLOR, PANEL_PADDING);
         // создаём панель рисования
@@ -226,7 +232,7 @@ public class application implements Consumer<Event>
         }
         switch (currentMode) {
             case INFO -> panelInfo.accept(e);
-            case FILE -> {}
+            case FILE -> panelSelectFile.accept(e);
             case WORK -> {
                 // передаём события на обработку панелям
                 panelControl.accept(e);
@@ -255,7 +261,7 @@ public class application implements Consumer<Event>
         // рисуем диалоги
         switch (currentMode) {
             case INFO -> panelInfo.paint(canvas, windowCS);
-            case FILE -> {}
+            case FILE -> panelSelectFile.paint(canvas, windowCS);
         }
         canvas.restore();
     }
