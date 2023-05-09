@@ -25,6 +25,7 @@ import static app.colors.PANEL_BACKGROUND_COLOR;
  */
 public class application implements Consumer<Event>
 {
+    private final Window window;
     /**
      * отступы панелей
      */
@@ -40,8 +41,6 @@ public class application implements Consumer<Event>
     /**
      * окно
      */
-    private final Window window;
-
     /**
      * панель легенды
      */
@@ -61,19 +60,16 @@ public class application implements Consumer<Event>
     /**
      * Представление проблемы
      */
+
+    /**
+     * Представление проблемы
+     */
     public static Task task;
     // конструктор приложения
     public application() {
 
         // создаём окно
         window = App.makeWindow();
-        // задаём обработчиком событий текущий объект
-        window.setEventListener(this);
-        window.setTitle("Java 2D");
-        // задаём размер окна
-        window.setWindowSize(900, 900);
-// задаём его положение
-        window.setWindowPosition(100, 100);
         // создаём панель рисования
         panelRendering = new PanelRendering(
                 window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 0, 0,
@@ -94,6 +90,12 @@ public class application implements Consumer<Event>
                 window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 3, 2,
                 2, 1
         );
+        window.setEventListener(this);
+        window.setTitle("Java 2D");
+        // задаём размер окна
+        window.setWindowSize(900, 900);
+// задаём его положение
+        window.setWindowPosition(100, 100);
         // задаём иконкy
         switch (Platform.CURRENT) {
             case WINDOWS -> window.setIcon(new File("src/main/resources/windows.ico"));
@@ -130,43 +132,6 @@ public class application implements Consumer<Event>
      * метод
      * @param e
      */
-    /**
-     * Рисование
-     *
-     * @param canvas низкоуровневый инструмент рисования примитивов от Skija
-     * @param height высота окна
-     * @param width  ширина окна
-     */
-    /**
-     * Рисование
-     *
-     * @param canvas   низкоуровневый инструмент рисования примитивов от Skija
-     * @param windowCS СК окна
-     */
-    /**
-     * Рисование
-     *
-     * @param canvas   низкоуровневый инструмент рисования примитивов от Skija
-     * @param windowCS СК окна
-     */
-    /**
-     * Рисование
-     *
-     * @param canvas   низкоуровневый инструмент рисования примитивов от Skija
-     * @param windowCS СК окна
-     */
-    public void paint(Canvas canvas, CoordinateSystem2i windowCS) {
-        // запоминаем изменения (пока что там просто заливка цветом)
-        canvas.save();
-        // очищаем канвас
-        canvas.clear(APP_BACKGROUND_COLOR);
-        // рисуем панели
-        panelRendering.paint(canvas, windowCS);
-        panelControl.paint(canvas, windowCS);
-        panelLog.paint(canvas, windowCS);
-        panelHelp.paint(canvas, windowCS);
-        canvas.restore();
-    }
     @Override
     public void accept(Event e) {
         if (e instanceof EventWindowClose) {
@@ -181,7 +146,29 @@ public class application implements Consumer<Event>
             // очищаем её канвас заданным цветом
             paint(s.getCanvas(), new CoordinateSystem2i(s.getWidth(), s.getHeight()));
         }
-
+        panelControl.accept(e);
+        panelRendering.accept(e);
+        panelLog.accept(e);
     }
+    /**
+     * Рисование
+     *
+     * @param canvas   низкоуровневый инструмент рисования примитивов от Skija
+     * @param windowCS СК окна
+     */
+
+    public void paint(Canvas canvas, CoordinateSystem2i windowCS) {
+        // запоминаем изменения (пока что там просто заливка цветом)
+        canvas.save();
+        // очищаем канвас
+        canvas.clear(APP_BACKGROUND_COLOR);
+        // рисуем панели
+        panelRendering.paint(canvas, windowCS);
+        panelControl.paint(canvas, windowCS);
+        panelLog.paint(canvas, windowCS);
+        panelHelp.paint(canvas, windowCS);
+        canvas.restore();
+    }
+
 
 }
