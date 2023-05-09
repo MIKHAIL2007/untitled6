@@ -1,5 +1,6 @@
 package app;
 
+import controls.InputFactory;
 import controls.Label;
 import io.github.humbleui.jwm.*;
 import io.github.humbleui.jwm.Event;
@@ -178,15 +179,15 @@ public class application implements Consumer<Event>
                         case DIGIT2 -> window.setOpacity(window.getOpacity() == 1f ? 0.5f : 1f);
                     }
                 else
-                    switch (eventKey.getKey()) {
-                        case ESCAPE -> {
-                            window.close();
-                            // завершаем обработку, иначе уже разрушенный контекст
-                            // будет передан панелям
-                            return;
-
-                        }
+                switch (eventKey.getKey()) {
+                    case ESCAPE -> {
+                        window.close();
+                        // завершаем обработку, иначе уже разрушенный контекст
+                        // будет передан панелям
+                        return;
                     }
+                    case TAB -> InputFactory.nextTab();
+                }
             }
         }
         panelControl.accept(e);
