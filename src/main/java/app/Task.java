@@ -1,9 +1,13 @@
 package app;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import io.github.humbleui.jwm.MouseButton;
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.Paint;
 import io.github.humbleui.skija.Rect;
+import lombok.Getter;
 import misc.CoordinateSystem2d;
 import misc.CoordinateSystem2i;
 import misc.Vector2d;
@@ -16,6 +20,11 @@ import java.util.concurrent.ThreadLocalRandom;
 /**
  * Класс задачи
  */
+
+/**
+ * Класс задачи
+ */
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "@class")
 public class Task {
     /**
      * Текст задачи
@@ -29,10 +38,12 @@ public class Task {
     /**
      * Вещественная система координат задачи
      */
+    @Getter
     private final CoordinateSystem2d ownCS;
     /**
      * Список точек
      */
+    @Getter
     private final ArrayList<Point> points;
     /**
      * Размер точки
@@ -48,11 +59,14 @@ public class Task {
      * @param ownCS  СК задачи
      * @param points массив точек
      */
-    public Task(CoordinateSystem2d ownCS, ArrayList<Point> points) {
+    @JsonCreator
+    public Task(
+            @JsonProperty("ownCS") CoordinateSystem2d ownCS,
+            @JsonProperty("points") ArrayList<Point> points
+    ) {
         this.ownCS = ownCS;
         this.points = points;
     }
-
     /**
      * Рисование задачи
      *
@@ -137,5 +151,23 @@ public class Task {
             else
                 addPoint(pos, Point.PointSet.SECOND_SET);
         }
+    }
+    /**
+     * Очистить задачу
+     */
+    public void clear() {
+        points.clear();
+    }
+    /**
+     * Решить задачу
+     */
+    public void solve() {
+        PanelLog.warning("Вызван метод solve()\n Пока что решения нет");
+    }
+    /**
+     * Отмена решения задачи
+     */
+    public void cancel() {
+
     }
 }
