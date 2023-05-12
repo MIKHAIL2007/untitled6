@@ -165,4 +165,7 @@ public class Vector2d {
         return result;
     }
 
+    public static Vector2d mult(Vector2d v, double s) {
+        return new Vector2d(v.x * s, v.y * s);
+    }
 }

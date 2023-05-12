@@ -1,5 +1,6 @@
 package panels;
 
+import app.Corner;
 import app.Point;
 import app.Task;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -61,9 +62,9 @@ public class PanelRendering extends GridPanel {
         );
 
         // создаём задачу без точек
-        task = new Task(cs, new ArrayList<>());
+        task = new Task(cs, new ArrayList<>(), new ArrayList<Corner>());
         // добавляем в нё 10 случайных
-        task.addRandomPoints(10);
+        task.addRandomCorners(2);
         fpsStats = new Stats();
     }
     /**

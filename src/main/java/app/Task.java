@@ -13,9 +13,11 @@ import misc.Vector2d;
 import misc.Vector2i;
 import panels.PanelLog;
 
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.concurrent.ThreadLocalRandom;
 
+import static app.application.task;
 import static app.colors.*;
 
 /**
@@ -46,6 +48,8 @@ public class Task {
      */
     @Getter
     private final ArrayList<Point> points;
+    @Getter
+    private final ArrayList<Corner> corners;
     /**
      * Размер точки
      */
@@ -89,10 +93,11 @@ public class Task {
     @JsonCreator
     public Task(
             @JsonProperty("ownCS") CoordinateSystem2d ownCS,
-            @JsonProperty("points") ArrayList<Point> points
+            @JsonProperty("points") ArrayList<Point> points, @JsonProperty("corners") ArrayList<Corner> corners
     ) {
         this.ownCS = ownCS;
         this.points = points;
+        this.corners = corners;
         this.crossed = new ArrayList<>();
         this.single = new ArrayList<>();
     }
@@ -106,7 +111,7 @@ public class Task {
         canvas.save();
         // создаём перо
         try (var paint = new Paint()) {
-            for (Point p : points) {
+            for (Corner p : corners) {
                 if (!solved) {
                     paint.setColor(p.getColor());
                 } else {
@@ -117,9 +122,7 @@ public class Task {
                 }
                 // y-координату разворачиваем, потому что у СК окна ось y направлена вниз,
                 // а в классическом представлении - вверх
-                Vector2i windowPos = windowCS.getCoords(p.pos.x, p.pos.y, ownCS);
-                // рисуем точку
-                canvas.drawRect(Rect.makeXYWH(windowPos.x - POINT_SIZE, windowPos.y - POINT_SIZE, POINT_SIZE * 2, POINT_SIZE * 2), paint);
+                p.renderCorner(canvas, windowCS);
             }
         }
         canvas.restore();
@@ -187,10 +190,10 @@ public class Task {
         Vector2d taskPos = ownCS.getCoords(pos, lastWindowCS);
         // если левая кнопка мыши, добавляем в первое множество
         if (mouseButton.equals(MouseButton.PRIMARY)) {
-            addPoint(taskPos, Point.PointSet.FIRST_SET);
+            addPoint(taskPos);
             // если правая, то во второе
         } else if (mouseButton.equals(MouseButton.SECONDARY)) {
-            addPoint(taskPos, Point.PointSet.SECOND_SET);
+            addPoint(taskPos);
         }
     }
     /**
@@ -235,21 +238,28 @@ public class Task {
      * Добавить точку
      *
      * @param pos      положение
-     * @param pointSet множество
      */
-    public void addPoint(Vector2d pos, Point.PointSet pointSet) {
+    public void addPoint(Vector2d pos) {
         solved = false;
-        Point newPoint = new Point(pos, pointSet);
+        Point newPoint = new Point(pos);
         points.add(newPoint);
         // Добавляем в лог запись информации
-        PanelLog.info("точка " + newPoint + " добавлена в " + newPoint.getSetName());
+        PanelLog.info("точка " + newPoint + " добавлена");
+    }
+    public void addCorner(Vector2d pos1, Vector2d pos2, Vector2d pos3) {
+        solved = false;
+        Corner newPoint = new Corner(pos1, pos2, pos3, ownCS);
+        //System.out.println(task);
+        corners.add(newPoint);
+        // Добавляем в лог запись информации
+        PanelLog.info("угол " + newPoint + " добавлен");
     }
     /**
-     * Добавить случайные точки
+     * Добавить случайные углы
      *
      * @param cnt кол-во случайных точек
      */
-    public void addRandomPoints(int cnt) {
+    public void addRandomCorners(int cnt) {
         // если создавать точки с полностью случайными координатами,
         // то вероятность того, что они совпадут крайне мала
         // поэтому нужно создать вспомогательную малую целочисленную ОСК
@@ -263,14 +273,16 @@ public class Task {
         for (int i = 0; i < cnt; i++) {
             // получаем случайные координаты на решётке
             Vector2i gridPos = addGrid.getRandomCoords();
+            Vector2i gridPos1 = addGrid.getRandomCoords();
+            Vector2i gridPos2 = addGrid.getRandomCoords();
             // получаем координаты в СК задачи
             Vector2d pos = ownCS.getCoords(gridPos, addGrid);
+            Vector2d pos1 = ownCS.getCoords(gridPos1, addGrid);
+            Vector2d pos2 = ownCS.getCoords(gridPos2, addGrid);
             // сработает примерно в половине случаев
-            if (ThreadLocalRandom.current().nextBoolean())
-                addPoint(pos, Point.PointSet.FIRST_SET);
-            else
-                addPoint(pos, Point.PointSet.SECOND_SET);
+                addCorner(pos, pos1, pos2);
         }
+        //System.out.print(1);
     }
     /**
      * Масштабирование области просмотра задачи
@@ -308,7 +320,7 @@ public class Task {
                 Point a = points.get(i);
                 Point b = points.get(j);
                 // если точки совпадают по положению
-                if (a.pos.equals(b.pos) && !a.pointSet.equals(b.pointSet)) {
+                if (a.pos.equals(b.pos)) {
                     if (!crossed.contains(a)){
                         crossed.add(a);
                         crossed.add(b);

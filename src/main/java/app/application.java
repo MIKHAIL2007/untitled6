@@ -12,10 +12,7 @@ import io.github.humbleui.skija.Paint;
 import io.github.humbleui.skija.Surface;
 import misc.CoordinateSystem2i;
 import misc.Misc;
-import panels.PanelControl;
-import panels.PanelHelp;
-import panels.PanelLog;
-import panels.PanelRendering;
+import panels.*;
 
 import java.io.File;
 import java.util.function.Consumer;
@@ -54,7 +51,7 @@ public class application implements Consumer<Event>
     /**
      * панель легенды
      */
-    private final PanelHelp panelHelp;
+    //private final PanelHelp panelHelp;
     /**
      * панель курсора мыши
      */
@@ -120,7 +117,7 @@ public class application implements Consumer<Event>
         );
         // создаём панель управления
         panelControl = new PanelControl(
-                window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 3, 0,
+                window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 2, 3, 0,
                 2, 2
         );
         // создаём панель лога
@@ -129,10 +126,11 @@ public class application implements Consumer<Event>
                 3, 1
         );
         // создаём панель помощи
-        panelHelp = new PanelHelp(
+        /* panelHelp = new PanelHelp(
                 window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 3, 2,
                 2, 1
-        );
+        );*/
+        // панель игры
         window.setEventListener(this);
         window.setTitle("Java 2D");
         // задаём размер окна
@@ -213,21 +211,21 @@ public class application implements Consumer<Event>
                         case DIGIT2 -> window.setOpacity(window.getOpacity() == 1f ? 0.5f : 1f);
                     }
                 else
-                switch (eventKey.getKey()) {
-                    case ESCAPE -> {
-                        // если сейчас основной режим
-                        if (currentMode.equals(Mode.WORK)) {
-                            // закрываем окно
-                            window.close();
-                            // завершаем обработку, иначе уже разрушенный контекст
-                            // будет передан панелям
-                            return;
-                        } else if (currentMode.equals(Mode.INFO)) {
-                            currentMode = Mode.WORK;
+                    switch (eventKey.getKey()) {
+                        case ESCAPE -> {
+                            // если сейчас основной режим
+                            if (currentMode.equals(Mode.WORK)) {
+                                // закрываем окно
+                                window.close();
+                                // завершаем обработку, иначе уже разрушенный контекст
+                                // будет передан панелям
+                                return;
+                            } else if (currentMode.equals(Mode.INFO)) {
+                                currentMode = Mode.WORK;
+                            }
                         }
+                        case TAB -> InputFactory.nextTab();
                     }
-                    case TAB -> InputFactory.nextTab();
-                }
             }
         }
         switch (currentMode) {
@@ -238,6 +236,7 @@ public class application implements Consumer<Event>
                 panelControl.accept(e);
                 panelRendering.accept(e);
                 panelLog.accept(e);
+                // запускаем обработку событий у панели примитивов
             }
         }
     }
@@ -257,7 +256,7 @@ public class application implements Consumer<Event>
         panelRendering.paint(canvas, windowCS);
         panelControl.paint(canvas, windowCS);
         panelLog.paint(canvas, windowCS);
-        panelHelp.paint(canvas, windowCS);
+       // panelHelp.paint(canvas, windowCS);
         // рисуем диалоги
         switch (currentMode) {
             case INFO -> panelInfo.paint(canvas, windowCS);
