@@ -1,6 +1,7 @@
 package app;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.github.humbleui.skija.Canvas;
 import io.github.humbleui.skija.Paint;
@@ -28,6 +29,7 @@ public class Corner {
         this.c = c;
         this.ownCS = ownCS;
     }
+    @JsonIgnore
     public int getColor() {
         return Misc.getColor(0xCC, 0x00, 0x00, 0xFF);
     }

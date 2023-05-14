@@ -69,9 +69,9 @@ public class PanelPrimitives extends Panel {
             p.setColor(Misc.getColor(200, 255, 0, 0));
 
             // рисуем опорные точки
-            canvas.drawRRect(RRect.makeXYWH(pointA.x - 4, pointA.y - 4, 8, 8, 4), p);
-            canvas.drawRRect(RRect.makeXYWH(pointB.x - 4, pointB.y - 4, 8, 8, 4), p);
-            canvas.drawRRect(RRect.makeXYWH(pointC.x - 4, pointC.y - 4, 8, 8, 4), p);
+            canvas.drawRRect(RRect.makeXYWH(pointA.x - 1, pointA.y - 1, 2, 2, 1), p);
+            canvas.drawRRect(RRect.makeXYWH(pointB.x - 1, pointB.y - 1, 2, 2, 1), p);
+            canvas.drawRRect(RRect.makeXYWH(pointC.x - 1, pointC.y - 1, 2, 2, 1), p);
 
             // восстанавливаем исходный цвет рисования
             p.setColor(paintColor);

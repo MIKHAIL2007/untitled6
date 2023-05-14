@@ -51,7 +51,7 @@ public class application implements Consumer<Event>
     /**
      * панель легенды
      */
-    //private final PanelHelp panelHelp;
+    private final PanelHelp panelHelp;
     /**
      * панель курсора мыши
      */
@@ -117,7 +117,7 @@ public class application implements Consumer<Event>
         );
         // создаём панель управления
         panelControl = new PanelControl(
-                window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 2, 3, 0,
+                window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 3, 0,
                 2, 2
         );
         // создаём панель лога
@@ -126,10 +126,10 @@ public class application implements Consumer<Event>
                 3, 1
         );
         // создаём панель помощи
-        /* panelHelp = new PanelHelp(
+        panelHelp = new PanelHelp(
                 window, true, PANEL_BACKGROUND_COLOR, PANEL_PADDING, 5, 3, 3, 2,
                 2, 1
-        );*/
+        );
         // панель игры
         window.setEventListener(this);
         window.setTitle("Java 2D");
@@ -256,7 +256,7 @@ public class application implements Consumer<Event>
         panelRendering.paint(canvas, windowCS);
         panelControl.paint(canvas, windowCS);
         panelLog.paint(canvas, windowCS);
-       // panelHelp.paint(canvas, windowCS);
+       panelHelp.paint(canvas, windowCS);
         // рисуем диалоги
         switch (currentMode) {
             case INFO -> panelInfo.paint(canvas, windowCS);
